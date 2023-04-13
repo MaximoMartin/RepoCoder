@@ -1,0 +1,45 @@
+from pytube import YouTube
+import tkinter
+
+def descargarAudio():
+    #Creacion de ventana
+    ventana = tkinter.Tk()
+    ventana.geometry("700x400")
+    ventana.title("Audios")
+    
+    
+    def textoCaja():
+        link = caja.get()
+        yt = YouTube(str(link))
+        ventana1 = tkinter.Tk()
+        ventana1.geometry("200x100")
+        etiqueta = tkinter.Label(ventana1, text= "La descarga fue EXITOSA!!", pady=20)
+        etiqueta.pack()
+        try:
+            stream = yt.streams.filter(only_audio= True).get_by_itag(251)
+            stream.download()
+            
+        except:
+            stream = yt.streams.get_audio_only()
+            stream.download()
+        finally:
+            ventana1.mainloop()
+        
+    #etiquetas con colores rgb
+    etiquetaSaludo = tkinter.Label(ventana, text= "Hola! Bienvenido a mi programa \n para descargar audios de Youtube", bg= "#FA9393", pady=20)
+    etiquetaSaludo.pack(fill= tkinter.X)
+    etiquetaLink = tkinter.Label(ventana, text= "Ingrese el Link del video: ", pady= 20)
+    etiquetaLink.pack()
+
+    #Caja de texto
+    caja = tkinter.Entry(ventana, font= "Helvetica 15", width= 50)
+    caja.pack()
+
+    #boton
+    botonUtil = tkinter.Button(ventana, text="Descargar!", padx=20, pady= 20,bg= "#57E181"  ,command= textoCaja)
+    botonUtil.pack()
+
+    #LLamamos
+    ventana.mainloop()
+
+descargarAudio()
